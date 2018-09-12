@@ -84,10 +84,19 @@ public class GpsTrackFXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         googleMapView.addMapInitializedListener(() -> configureMap());
+        checkBoxes = new ArrayList<>();
         checkBoxes.add(set1Checkbox);
         checkBoxes.add(set2Checkbox);
         checkBoxes.add(set3Checkbox);
         checkBoxes.add(set4Checkbox);
+        initCheckboxes();
+        colours.add("yellow");
+        colours.add("green");
+        colours.add("red");
+        colours.add("blue");
+    }
+
+    private void initCheckboxes() {
         checkBoxes.forEach(checkBox -> {
             checkBox.setVisible(false);
             checkBox.selectedProperty().addListener((observable, oldValue, newValue) ->
@@ -96,10 +105,6 @@ public class GpsTrackFXMLController implements Initializable {
                 redraw();
             });
         });
-        colours.add("yellow");
-        colours.add("green");
-        colours.add("red");
-        colours.add("blue");
     }
 
     protected void configureMap() {
@@ -139,6 +144,7 @@ public class GpsTrackFXMLController implements Initializable {
         try {
             setName = null;
             pointSets = new HashMap<>();
+            toggles.clear();
             Files.lines(path).forEach(s -> {
                 Iterator<CheckBox> checkBoxIterator = checkBoxes.iterator();
                 if (s.startsWith("----")) {
